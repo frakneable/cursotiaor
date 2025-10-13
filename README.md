@@ -100,12 +100,10 @@ README.md            -> Documentação
 
 ## 12. Imagens
 
-```
 ![Visão Geral](pbl/fase3/docs/images/diagram-overview.png)
 ![Detalhe NPK](pbl/fase3/docs/images/diagram-npk.png)
 ![Sensor pH (LDR)](pbl/fase3/docs/images/diagram-ph-ldr.png)
 ![DHT22 e Relé](pbl/fase3/docs/images/diagram-dht-relay.png)
-```
 
 ## 13. Referências (Genéricas)
 - Recomendação de pH para soja: faixa levemente ácida (~6.0–6.8) favorece a disponibilidade de fósforo.
