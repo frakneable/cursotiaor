@@ -66,6 +66,13 @@ float mapPh(int adcValue) {
   return (14.0f * adcValue) / 4095.0f;
 }
 
+void readPh() {
+  int adc = analogRead(PIN_LDR);
+  float phRaw = mapPh(adc);
+  // Filtro exponencial simples
+  phFiltered = PH_ALPHA * phRaw + (1.0f - PH_ALPHA) * phFiltered;
+}
+
 void readDht() {
   unsigned long now = millis();
   if (now - lastDhtMillis >= DHT_INTERVAL) {
@@ -79,11 +86,60 @@ void readDht() {
   }
 }
 
-void readPh() {
-  int adc = analogRead(PIN_LDR);
-  float phRaw = mapPh(adc);
-  // Filtro exponencial simples
-  phFiltered = PH_ALPHA * phRaw + (1.0f - PH_ALPHA) * phFiltered;
+// ========= Previsão de chuva (Solução 3: manual / embutida) =========
+// Ajuste este valor manualmente antes de compilar (0..100 %)
+// Também pode alterar em tempo de execução via Serial: RAIN:NN
+float rainProbability = 25.0f;        // Ex.: 25% de chance de chuva
+float RAIN_THRESHOLD = 40.0f;         // Pode ajustar em runtime: THRESH:NN
+// ====================================================================
+
+// === Leitura de comandos do console Serial ===
+// Comandos aceitos (terminar com Enter):
+//   RAIN:NN     -> define rainProbability (0..100)
+//   THRESH:NN   -> define RAIN_THRESHOLD (0..100)
+//   SHOW        -> mostra valores atuais
+//   HELP        -> lista comandos
+void readSerialCommands() {
+  if (!Serial.available()) return;
+  String line = Serial.readStringUntil('\n');
+  line.trim();
+  if (line.length() == 0) return;
+
+  if (line.equalsIgnoreCase("HELP")) {
+    Serial.println("Comandos: RAIN:NN | THRESH:NN | SHOW | HELP");
+    return;
+  }
+  if (line.equalsIgnoreCase("SHOW")) {
+    Serial.print("rainProbability="); Serial.print(rainProbability);
+    Serial.print("% RAIN_THRESHOLD="); Serial.print(RAIN_THRESHOLD);
+    Serial.println("%");
+    return;
+  }
+  if (line.startsWith("RAIN:")) {
+    int v = line.substring(5).toInt();
+    if (v >= 0 && v <= 100) {
+      rainProbability = (float)v;
+      Serial.print("[CMD] rainProbability set to ");
+      Serial.print(rainProbability); Serial.println("%");
+    } else {
+      Serial.println("[CMD] RAIN valor fora de 0-100");
+    }
+    return;
+  }
+  if (line.startsWith("THRESH:")) {
+    int v = line.substring(7).toInt();
+    if (v >= 0 && v <= 100) {
+      RAIN_THRESHOLD = (float)v;
+      Serial.print("[CMD] RAIN_THRESHOLD set to ");
+      Serial.print(RAIN_THRESHOLD); Serial.println("%");
+    } else {
+      Serial.println("[CMD] THRESH valor fora de 0-100");
+    }
+    return;
+  }
+  Serial.print("[CMD] desconhecido: ");
+  Serial.println(line);
+  Serial.println("Use HELP para lista.");
 }
 
 void updatePump(bool nBtn, bool pBtn, bool kBtn) {
@@ -149,6 +205,7 @@ void logStatus(bool nBtn, bool pBtn, bool kBtn) {
 void setup() {
   Serial.begin(115200);
   Serial.println("[BOOT] Irrigacao Soja - N(27) P(14) K(26) pH(LDR 34) Umidade(DHT22 4) Relay(25)");
+  Serial.println("Digite HELP para comandos (RAIN:NN THRESH:NN SHOW).");
   pinMode(PIN_N, INPUT_PULLUP);
   pinMode(PIN_P, INPUT_PULLUP);
   pinMode(PIN_K, INPUT_PULLUP);
@@ -163,6 +220,8 @@ void loop() {
   bool nOk = (digitalRead(PIN_N) == LOW);
   bool pOk = (digitalRead(PIN_P) == LOW);
   bool kOk = (digitalRead(PIN_K) == LOW);
+
+  readSerialCommands();  // <<< NOVO: processa comandos do console
 
   readPh();      // pH simulado
   readDht();     // umidade/temperatura simuladas
