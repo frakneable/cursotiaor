@@ -1,7 +1,6 @@
 # FIAP - Faculdade de Informática e Administração Paulista
 <br>
-# Nome do projeto
-Farm Tech Solutions 
+# Farm Tech Solutions 
 
 ## 👨‍🎓 Integrantes: 
 - <a> Victor Hugo Ferreira Rolim </a>
