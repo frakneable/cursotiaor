@@ -48,6 +48,7 @@ fase2/
 fase3/
     README.md
     requirements.txt
+    demonstração_youtube_link.txt
     document/
         sensor_data_fase2.csv
     src/
