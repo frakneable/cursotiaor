@@ -32,6 +32,24 @@ Relatório da atividade de carga dos dados da Fase 2 em um banco Oracle. Abaixo 
 ```sql
 SELECT *
 FROM SENSORES_FASE3;
+
+
+SELECT
+    Recorddate,
+    Time,
+    "TEMPERATURE"
+FROM
+    sensores_fase3
+ORDER BY
+    "TEMPERATURE" DESC;
+
+SELECT
+    *
+FROM
+    sensores_fase3
+WHERE
+    Pump_Status = 'ON';
+
 ```
 
 Essa consulta retornou todas as linhas do CSV importado, confirmando que os dados estão acessíveis no banco Oracle para novas análises.
