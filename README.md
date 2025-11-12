@@ -7,21 +7,19 @@
 <br>
 
 # Nome do projeto
-
-## Nome do grupo
+Farm Tech Solutions 
 
 ## 👨‍🎓 Integrantes: 
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do integrante 1</a>
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do integrante 2</a>
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do integrante 3</a> 
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do integrante 4</a> 
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do integrante 5</a>
+- <a> Victor Hugo Ferreira Rolim </a>
+- <a> Karina Alves de Oliveira </a>
+- <a> Victor Copque dos Reis </a> 
+- <a> Gean Junior Ferreira de Araujo </a> 
 
 ## 👩‍🏫 Professores:
 ### Tutor(a) 
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do Tutor</a>
+- <a> Ana Cristina dos Santos </a>
 ### Coordenador(a)
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do Coordenador</a>
+- <a> André Godoi Chiovato </a>
 
 
 ## 📜 Descrição
